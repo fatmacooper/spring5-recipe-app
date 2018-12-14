@@ -3,6 +3,7 @@ package com.orionsson.spring5recipeapp.domain;
 import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 public class Recipe {
@@ -23,6 +24,9 @@ public class Recipe {
     //private Difficulty difficulty;
     @Lob
     private Byte image[];
+
+    @OneToMany(cascade = CascadeType.ALL ,mappedBy = "recipe")
+    private Set<Ingredient> ingredients;
 
     public Long getId() {
         return id;
