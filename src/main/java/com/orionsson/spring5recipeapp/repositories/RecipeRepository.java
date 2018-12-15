@@ -1,4 +1,4 @@
-package com.orionsson.spring5recipeapp.repository;
+package com.orionsson.spring5recipeapp.repositories;
 
 import com.orionsson.spring5recipeapp.domain.Recipe;
 import org.springframework.data.repository.CrudRepository;
