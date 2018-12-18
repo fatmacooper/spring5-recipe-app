@@ -32,39 +32,39 @@ public class Ingredient {
     }
 
     public Long getId() {
-        return id;
+        return this.id;
+    }
+
+    public String getDescription() {
+        return this.description;
+    }
+
+    public BigDecimal getAmount() {
+        return this.amount;
+    }
+
+    public Recipe getRecipe() {
+        return this.recipe;
+    }
+
+    public UnitOfMeasure getUnitOfMeasure() {
+        return this.unitOfMeasure;
     }
 
     public void setId(Long id) {
         this.id = id;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public BigDecimal getAmount() {
-        return amount;
     }
 
     public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
 
-    public Recipe getRecipe() {
-        return recipe;
-    }
-
     public void setRecipe(Recipe recipe) {
         this.recipe = recipe;
-    }
-
-    public UnitOfMeasure getUnitOfMeasure() {
-        return unitOfMeasure;
     }
 
     public void setUnitOfMeasure(UnitOfMeasure unitOfMeasure) {
