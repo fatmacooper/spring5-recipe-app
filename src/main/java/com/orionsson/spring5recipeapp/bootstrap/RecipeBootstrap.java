@@ -4,6 +4,7 @@ import com.orionsson.spring5recipeapp.domain.*;
 import com.orionsson.spring5recipeapp.repositories.CategoryRepository;
 import com.orionsson.spring5recipeapp.repositories.RecipeRepository;
 import com.orionsson.spring5recipeapp.repositories.UnitOfMeasureRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
@@ -16,6 +17,7 @@ import java.util.Optional;
 /**
  * Created by jt on 6/13/17.
  */
+@Slf4j
 @Component
 public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEvent> {
 
@@ -142,6 +144,7 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
 
         //add to return list
         recipes.add(guacRecipe);
+        log.debug("first recipe is added.");
 
         //Yummy Tacos
         Recipe tacosRecipe = new Recipe();
@@ -199,6 +202,7 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
         tacosRecipe.getCategories().add(mexicanCategory);
 
         recipes.add(tacosRecipe);
+        log.debug("taco recipe is added.");
         return recipes;
     }
 }
