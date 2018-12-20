@@ -23,10 +23,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 public class IndexControllerTest {
     @Mock
-    private RecipeService recipeService;
+    RecipeService recipeService;
     @Mock
-    private Model model;
-    private IndexController indexController;
+    Model model;
+    IndexController indexController;
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
