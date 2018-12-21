@@ -1,5 +1,7 @@
 package com.orionsson.spring5recipeapp.services;
 
+import com.orionsson.spring5recipeapp.converters.RecipeCommandToRecipe;
+import com.orionsson.spring5recipeapp.converters.RecipeToRecipeCommand;
 import com.orionsson.spring5recipeapp.domain.Recipe;
 import com.orionsson.spring5recipeapp.repositories.RecipeRepository;
 import org.junit.Before;
@@ -16,14 +18,18 @@ import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.*;
 
 public class RecipeServiceImplTest {
+    RecipeServiceImpl recipeService;
     @Mock
-    private RecipeRepository recipeRepository;
-    private RecipeServiceImpl recipeService;
+    RecipeRepository recipeRepository;
+    @Mock
+    RecipeToRecipeCommand recipeToRecipeCommand;
+    @Mock
+    RecipeCommandToRecipe recipeCommandToRecipe;
 
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        recipeService = new RecipeServiceImpl(recipeRepository);
+        recipeService = new RecipeServiceImpl(recipeRepository,recipeCommandToRecipe,recipeToRecipeCommand);
     }
 
     @Test

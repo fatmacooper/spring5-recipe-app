@@ -1,6 +1,6 @@
-package com.orionsson.spring5recipeapp.domain;
+package com.orionsson.spring5recipeapp.repositories;
 
-import com.orionsson.spring5recipeapp.repositories.UnitOfMeasureRepository;
+import com.orionsson.spring5recipeapp.domain.UnitOfMeasure;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
