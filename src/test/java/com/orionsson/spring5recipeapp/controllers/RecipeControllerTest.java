@@ -71,7 +71,7 @@ public class RecipeControllerTest {
     public void testGetUpdateView() throws Exception{
         RecipeCommand command = new RecipeCommand();
         command.setId(2L);
-        when(recipeService.findByCommandId(anyLong())).thenReturn(command);
+        when(recipeService.findCommandById(anyLong())).thenReturn(command);
         mockMvc.perform(get("/recipe/2/update"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("recipe/recipeform"))
