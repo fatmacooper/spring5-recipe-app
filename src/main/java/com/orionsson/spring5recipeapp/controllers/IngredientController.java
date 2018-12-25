@@ -1,7 +1,6 @@
 package com.orionsson.spring5recipeapp.controllers;
 
 import com.orionsson.spring5recipeapp.commands.IngredientCommand;
-import com.orionsson.spring5recipeapp.commands.UnitOfMeasureCommand;
 import com.orionsson.spring5recipeapp.services.IngredientService;
 import com.orionsson.spring5recipeapp.services.RecipeService;
 import com.orionsson.spring5recipeapp.services.UnitOfMeasureService;
@@ -49,7 +48,7 @@ public class IngredientController {
     }
 
     @PostMapping("/recipe/{recipeId}/ingredient")
-    public String saveOrUpdate(@ModelAttribute IngredientCommand command, @ModelAttribute UnitOfMeasureCommand unitOfMeasureCommand){
+    public String saveOrUpdate(@ModelAttribute IngredientCommand command){
         IngredientCommand savedCommand = ingredientService.saveIngredientCommand(command);
         log.debug("saved recipe id:" + savedCommand.getRecipeId());
         log.debug("saved ingredient id:" + savedCommand.getId());
