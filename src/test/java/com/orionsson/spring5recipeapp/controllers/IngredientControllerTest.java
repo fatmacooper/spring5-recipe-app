@@ -96,10 +96,10 @@ public class IngredientControllerTest {
         when(unitOfMeasureService.listAllUoms()).thenReturn(new HashSet<>());
         //then
         mockMvc.perform(get("/recipe/1/ingredients/new"))
-        .andExpect(status().isOk())
-        .andExpect(view().name("/recipe/ingredient/ingredientform"))
-        .andExpect(model().attributeExists("ingredient"))
-        .andExpect(model().attributeExists("uomList"));
+                .andExpect(status().isOk())
+                .andExpect(view().name("recipe/ingredient/ingredientform"))
+                .andExpect(model().attributeExists("ingredient"))
+                .andExpect(model().attributeExists("uomList"));
         verify(recipeService,times(1)).findCommandById(anyLong());
     }
     @Test
