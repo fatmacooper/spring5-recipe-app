@@ -1,6 +1,8 @@
 package com.orionsson.spring5recipeapp.controllers;
 
 import com.orionsson.spring5recipeapp.commands.IngredientCommand;
+import com.orionsson.spring5recipeapp.commands.RecipeCommand;
+import com.orionsson.spring5recipeapp.commands.UnitOfMeasureCommand;
 import com.orionsson.spring5recipeapp.services.IngredientService;
 import com.orionsson.spring5recipeapp.services.RecipeService;
 import com.orionsson.spring5recipeapp.services.UnitOfMeasureService;
@@ -46,6 +48,19 @@ public class IngredientController {
         model.addAttribute("uomList",unitOfMeasureService.listAllUoms());
         return "recipe/ingredient/ingredientform";
     }
+    @GetMapping
+    @RequestMapping("/recipe/{recipeId}/ingredients/new")
+    public String newRecipeIngredients(@PathVariable String recipeId, Model model){
+        RecipeCommand recipeCommand = recipeService.findCommandById(new Long(recipeId));
+        //todo raise error when recipe cannot be found
+        IngredientCommand ingredientCommand = new IngredientCommand();
+        ingredientCommand.setRecipeId(recipeCommand.getId());
+        model.addAttribute("ingredient",ingredientCommand);
+        //init uom
+        ingredientCommand.setUnitOfMeasure(new UnitOfMeasureCommand());
+        model.addAttribute("uomList",unitOfMeasureService.listAllUoms());
+        return "recipe/ingredient/ingredientform";
+    }
 
     @PostMapping("/recipe/{recipeId}/ingredient")
     public String saveOrUpdate(@ModelAttribute IngredientCommand command){
@@ -54,4 +69,5 @@ public class IngredientController {
         log.debug("saved ingredient id:" + savedCommand.getId());
         return "redirect:/recipe/" +savedCommand.getRecipeId() + "/ingredients/" + savedCommand.getId() + "/show";
     }
+
 }
