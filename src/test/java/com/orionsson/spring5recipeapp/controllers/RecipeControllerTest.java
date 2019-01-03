@@ -2,6 +2,7 @@ package com.orionsson.spring5recipeapp.controllers;
 
 import com.orionsson.spring5recipeapp.commands.RecipeCommand;
 import com.orionsson.spring5recipeapp.domain.Recipe;
+import com.orionsson.spring5recipeapp.exceptions.NotFoundException;
 import com.orionsson.spring5recipeapp.services.RecipeService;
 import org.junit.Before;
 import org.junit.Test;
@@ -43,6 +44,14 @@ public class RecipeControllerTest {
         mockMvc.perform(get("/recipe/1/show"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("recipe/show"));
+    }
+
+    @Test
+    public void testGetRecipeNotFound() throws Exception{
+        when(recipeService.findById(anyLong())).thenThrow(NotFoundException.class);
+        mockMvc.perform(get("/recipe/1/show")).
+                andExpect(status().isNotFound()).
+                andExpect(view().name("404error"));
     }
 
     @Test

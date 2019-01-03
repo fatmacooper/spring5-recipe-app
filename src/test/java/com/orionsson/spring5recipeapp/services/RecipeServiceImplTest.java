@@ -1,8 +1,10 @@
 package com.orionsson.spring5recipeapp.services;
 
+import com.orionsson.spring5recipeapp.commands.RecipeCommand;
 import com.orionsson.spring5recipeapp.converters.RecipeCommandToRecipe;
 import com.orionsson.spring5recipeapp.converters.RecipeToRecipeCommand;
 import com.orionsson.spring5recipeapp.domain.Recipe;
+import com.orionsson.spring5recipeapp.exceptions.NotFoundException;
 import com.orionsson.spring5recipeapp.repositories.RecipeRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -59,6 +61,32 @@ public class RecipeServiceImplTest {
         assertNotNull("Recipe is not null", recipeReturned);
         verify(recipeRepository, times(1)).findById(anyLong());
         verify(recipeRepository, never()).findAll();
+    }
+
+    @Test(expected= NotFoundException.class)
+    public void getRecipeByIdTestNotFound() throws Exception{
+        Optional<Recipe> recipeOptional = Optional.empty();
+        when(recipeRepository.findById(anyLong())).thenReturn(recipeOptional);
+        Recipe recpeReturned = recipeService.findById(1L);
+    }
+
+    @Test
+    public void getRecipeCommandByIdTest() throws Exception{
+        Recipe recipe = new Recipe();
+        recipe.setId(1L);
+        Optional<Recipe> recipeOptional = Optional.of(recipe);
+        when(recipeRepository.findById(anyLong())).thenReturn(recipeOptional);
+
+        RecipeCommand recipeCommand = new RecipeCommand();
+        recipeCommand.setId(1L);
+
+        when(recipeToRecipeCommand.convert(any())).thenReturn(recipeCommand);
+
+        RecipeCommand commandById = recipeService.findCommandById(1L);
+
+        assertNotNull("Null recipe returned",commandById);
+        verify(recipeRepository,times(1)).findById(anyLong());
+        verify(recipeRepository,never()).findAll();
     }
 
     @Test
