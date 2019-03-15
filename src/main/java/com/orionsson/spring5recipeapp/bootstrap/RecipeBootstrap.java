@@ -6,6 +6,7 @@ import com.orionsson.spring5recipeapp.repositories.RecipeRepository;
 import com.orionsson.spring5recipeapp.repositories.UnitOfMeasureRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
+import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +21,7 @@ import java.util.Optional;
  */
 @Slf4j
 @Component
+@Profile("default")
 public class   RecipeBootstrap implements ApplicationListener<ContextRefreshedEvent> {
 
     private final CategoryRepository categoryRepository;
@@ -134,7 +136,7 @@ public class   RecipeBootstrap implements ApplicationListener<ContextRefreshedEv
 
         guacRecipe.setNotes(guacNotes);
 
-        //very redundent - could add helper method, and make this simpler
+        //very redundant - could add helper method, and make this simpler
         guacRecipe.addIngredient(new Ingredient("ripe avocados", new BigDecimal(2), eachUom));
         guacRecipe.addIngredient(new Ingredient("Kosher salt", new BigDecimal(".5"), teaspoonUom));
         guacRecipe.addIngredient(new Ingredient("fresh lime juice or lemon juice", new BigDecimal(2), tableSpoonUom));
