@@ -15,7 +15,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.HashSet;
 
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -43,8 +42,8 @@ public class IngredientControllerTest {
     public void testListIngredients() throws Exception{
         //given
         RecipeCommand recipeCommand = new RecipeCommand();
-        recipeCommand.setId(1l);
-        when(recipeService.findCommandById(anyLong())).thenReturn(recipeCommand);
+        recipeCommand.setId("1");
+        when(recipeService.findCommandById(anyString())).thenReturn(recipeCommand);
 
         //when
         mockMvc.perform(get("/recipe/1/ingredients"))
@@ -53,13 +52,13 @@ public class IngredientControllerTest {
                 .andExpect(model().attributeExists("recipe"));
 
         //then
-        verify(recipeService, times(1)).findCommandById(anyLong());
+        verify(recipeService, times(1)).findCommandById(anyString());
     }
     @Test
     public void testShowIngredients() throws Exception{
         //given
         IngredientCommand command = new IngredientCommand();
-        when(ingredientService.findByRecipeIdAndIngredientId(anyLong(),anyLong())).thenReturn(command);
+        when(ingredientService.findByRecipeIdAndIngredientId(anyString(),anyString())).thenReturn(command);
 
         //when
         mockMvc.perform(get("/recipe/1/ingredients/1/show"))
@@ -68,7 +67,7 @@ public class IngredientControllerTest {
                 .andExpect(model().attributeExists("ingredient"));
 
         //then
-        verify(ingredientService, times(1)).findByRecipeIdAndIngredientId(anyLong(),anyLong());
+        verify(ingredientService, times(1)).findByRecipeIdAndIngredientId(anyString(),anyString());
     }
     @Test
     public void testUpdateIngredientForm() throws Exception {
@@ -76,7 +75,7 @@ public class IngredientControllerTest {
         IngredientCommand ingredientCommand = new IngredientCommand();
 
         //when
-        when(ingredientService.findByRecipeIdAndIngredientId(anyLong(), anyLong())).thenReturn(ingredientCommand);
+        when(ingredientService.findByRecipeIdAndIngredientId(anyString(), anyString())).thenReturn(ingredientCommand);
         when(unitOfMeasureService.listAllUoms()).thenReturn(new HashSet<>());
 
         //then
@@ -92,15 +91,15 @@ public class IngredientControllerTest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/recipe/1/ingredients"));
 
-        verify(ingredientService,times(1)).deleteById(anyLong(),anyLong());
+        verify(ingredientService,times(1)).deleteById(anyString(),anyString());
     }
     @Test
     public void testNewIngredientForm() throws Exception{
         //given
         RecipeCommand recipeCommand = new RecipeCommand();
-        recipeCommand.setId(1l);
+        recipeCommand.setId("1");
         //when
-        when(recipeService.findCommandById(anyLong())).thenReturn(recipeCommand);
+        when(recipeService.findCommandById(anyString())).thenReturn(recipeCommand);
         when(unitOfMeasureService.listAllUoms()).thenReturn(new HashSet<>());
         //then
         mockMvc.perform(get("/recipe/1/ingredients/new"))
@@ -108,14 +107,14 @@ public class IngredientControllerTest {
                 .andExpect(view().name("recipe/ingredient/ingredientform"))
                 .andExpect(model().attributeExists("ingredient"))
                 .andExpect(model().attributeExists("uomList"));
-        verify(recipeService,times(1)).findCommandById(anyLong());
+        verify(recipeService,times(1)).findCommandById(anyString());
     }
     @Test
     public void testSaveOrUpdate() throws Exception{
         //given
         IngredientCommand ingredientCommand = new IngredientCommand();
-        ingredientCommand.setId(3L);
-        ingredientCommand.setRecipeId(2L);
+        ingredientCommand.setId("3");
+        ingredientCommand.setRecipeId("2");
 
         //when
         when(ingredientService.saveIngredientCommand(any())).thenReturn(ingredientCommand);

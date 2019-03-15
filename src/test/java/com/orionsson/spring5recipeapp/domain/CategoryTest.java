@@ -13,7 +13,7 @@ public class CategoryTest {
     }
     @Test
     public void getId() throws Exception{
-        Long id = 4l;
+        String id = "4";
         category.setId(id);
         assertEquals(id,category.getId());
     }

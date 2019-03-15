@@ -1,6 +1,8 @@
 package com.orionsson.spring5recipeapp.repositories;
 
 import com.orionsson.spring5recipeapp.domain.UnitOfMeasure;
+import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,11 +12,17 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
+
+@Ignore
 @RunWith(SpringRunner.class)
 @DataJpaTest
 public class UnitOfMeasureTestIT {
     @Autowired
     UnitOfMeasureRepository unitOfMeasureRepository;
+
+    @Before
+    public void setUp() throws Exception {
+    }
 
     @Test
     //@DirtiesContext

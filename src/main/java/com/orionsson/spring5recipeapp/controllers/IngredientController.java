@@ -31,33 +31,33 @@ public class IngredientController {
     @GetMapping("/recipe/{id}/ingredients")
     public String listIngredients(@PathVariable String id, Model model){
         log.debug("Getting ingredient list for recipe id: " + id);
-        model.addAttribute("recipe",recipeService.findCommandById(new Long(id)));
+        model.addAttribute("recipe",recipeService.findCommandById(id));
         return "recipe/ingredient/list";
     }
 
     @GetMapping("/recipe/{recipeId}/ingredients/{id}/show")
     public String showIngredient(@PathVariable String recipeId,@PathVariable String id, Model model){
         log.debug("Show ingredient for recipe id: " + recipeId + "and ingredient id: " + id);
-        model.addAttribute("ingredient",ingredientService.findByRecipeIdAndIngredientId(new Long(recipeId),new Long(id)));
+        model.addAttribute("ingredient",ingredientService.findByRecipeIdAndIngredientId(recipeId,id));
         return "recipe/ingredient/show";
     }
 
     @GetMapping("recipe/{recipeId}/ingredients/{id}/update")
     public String updateRecipeIngredient(@PathVariable String recipeId,@PathVariable String id, Model model){
-        model.addAttribute("ingredient",ingredientService.findByRecipeIdAndIngredientId(Long.valueOf(recipeId),Long.valueOf(id)));
+        model.addAttribute("ingredient",ingredientService.findByRecipeIdAndIngredientId(recipeId,id));
         model.addAttribute("uomList",unitOfMeasureService.listAllUoms());
         return "recipe/ingredient/ingredientform";
     }
 
     @GetMapping("/recipe/{recipeId}/ingredients/{id}/delete")
     public String deleteRecipeIngredient(@PathVariable String recipeId,@PathVariable String id){
-        ingredientService.deleteById(Long.valueOf(recipeId),Long.valueOf(id));
+        ingredientService.deleteById(recipeId,id);
         return "redirect:/recipe/" + recipeId + "/ingredients";
     }
 
     @GetMapping("/recipe/{recipeId}/ingredients/new")
     public String newRecipeIngredients(@PathVariable String recipeId, Model model){
-        RecipeCommand recipeCommand = recipeService.findCommandById(new Long(recipeId));
+        RecipeCommand recipeCommand = recipeService.findCommandById(recipeId);
         //todo raise error when recipe cannot be found
         IngredientCommand ingredientCommand = new IngredientCommand();
         ingredientCommand.setRecipeId(recipeCommand.getId());
