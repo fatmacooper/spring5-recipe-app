@@ -3,10 +3,11 @@ package com.orionsson.spring5recipeapp.converters;
 import com.orionsson.spring5recipeapp.commands.IngredientCommand;
 import com.orionsson.spring5recipeapp.domain.Ingredient;
 import com.orionsson.spring5recipeapp.domain.Recipe;
-import lombok.Synchronized;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
+
+import java.util.UUID;
 
 @Component
 public class IngredientCommandToIngredient implements Converter<IngredientCommand, Ingredient> {
@@ -14,7 +15,7 @@ public class IngredientCommandToIngredient implements Converter<IngredientComman
     public IngredientCommandToIngredient(UnitOfMeasureCommandToUnitOfMeasure uomConverter) {
         this.uomConverter = uomConverter;
     }
-    @Synchronized
+
     @Nullable
     @Override
     public Ingredient convert(IngredientCommand source) {
@@ -22,11 +23,15 @@ public class IngredientCommandToIngredient implements Converter<IngredientComman
             return null;
         }
         final Ingredient ingredient = new Ingredient();
-        ingredient.setId(source.getId());
+        if(source.getId() == null || source.getId().equals("")) {
+            ingredient.setId(UUID.randomUUID().toString());
+        }
+        else {
+            ingredient.setId(source.getId());
+        }
         if(source.getRecipeId() != null){
             Recipe recipe = new Recipe();
             recipe.setId(source.getRecipeId());
-            ingredient.setRecipe(recipe);
             recipe.addIngredient(ingredient);
         }
         ingredient.setAmount(source.getAmount());

@@ -1,7 +1,6 @@
 package com.orionsson.spring5recipeapp.converters;
 
 import com.orionsson.spring5recipeapp.commands.RecipeCommand;
-import com.orionsson.spring5recipeapp.domain.Category;
 import com.orionsson.spring5recipeapp.domain.Recipe;
 import lombok.Synchronized;
 import org.springframework.core.convert.converter.Converter;
@@ -44,7 +43,7 @@ public class RecipeToRecipeCommand implements Converter<Recipe, RecipeCommand> {
 
         if (source.getCategories() != null && source.getCategories().size() > 0){
             source.getCategories()
-                    .forEach((Category category) -> command.getCategories().add(categoryConveter.convert(category)));
+                    .forEach(category -> command.getCategories().add(categoryConveter.convert(category)));
         }
 
         if (source.getIngredients() != null && source.getIngredients().size() > 0){

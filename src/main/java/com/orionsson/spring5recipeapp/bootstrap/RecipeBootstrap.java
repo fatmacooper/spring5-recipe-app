@@ -26,7 +26,8 @@ public class   RecipeBootstrap implements ApplicationListener<ContextRefreshedEv
     private final RecipeRepository recipeRepository;
     private final UnitOfMeasureRepository unitOfMeasureRepository;
 
-    public RecipeBootstrap(CategoryRepository categoryRepository, RecipeRepository recipeRepository, UnitOfMeasureRepository unitOfMeasureRepository) {
+    public RecipeBootstrap(CategoryRepository categoryRepository, RecipeRepository recipeRepository,
+                           UnitOfMeasureRepository unitOfMeasureRepository) {
         this.categoryRepository = categoryRepository;
         this.recipeRepository = recipeRepository;
         this.unitOfMeasureRepository = unitOfMeasureRepository;
@@ -57,7 +58,6 @@ public class   RecipeBootstrap implements ApplicationListener<ContextRefreshedEv
         Category cat4 = new Category();
         cat4.setDescription("Fast Food");
         categoryRepository.save(cat4);
-
     }
 
     private void loadUom(){

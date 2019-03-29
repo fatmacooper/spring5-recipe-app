@@ -51,6 +51,10 @@ public class IngredientServiceImpl implements IngredientService {
             //todo impl error handling
             log.error("Ingredient id not found: " + ingredientId);
         }
+
+        IngredientCommand ingredientCommand = ingredientCommandOptional.get();
+        ingredientCommand.setRecipeId(recipeId);
+
         return ingredientCommandOptional.get();
     }
 
@@ -78,12 +82,12 @@ public class IngredientServiceImpl implements IngredientService {
                 ingredientFound.setDescription(command.getDescription());
                 ingredientFound.setAmount(command.getAmount());
                 ingredientFound.setUnitOfMeasure(unitOfMeasureRepository
-                        .findById(command.getUnitOfMeasure().getId())
-                        .orElseThrow(() -> new RuntimeException("UOM NOT FOUND"))); //todo address this
+                    .findById(command.getUnitOfMeasure().getId())
+                    .orElseThrow(() -> new RuntimeException("UOM NOT FOUND"))); //todo address this
             } else {
                 //add new Ingredient
                 Ingredient ingredient = ingredientCommandToIngredient.convert(command);
-                ingredient.setRecipe(recipe);
+                //ingredient.setRecipe(recipe);
                 recipe.addIngredient(ingredient);
             }
 
@@ -101,8 +105,10 @@ public class IngredientServiceImpl implements IngredientService {
                         .findFirst();
             }
 
-            //to do check for fail
-            return ingredientToIngredientCommand.convert(savedIngredientOptional.get());
+            IngredientCommand ingredientCommand =  ingredientToIngredientCommand.convert(savedIngredientOptional.get());
+            ingredientCommand.setRecipeId(recipe.getId());
+            //todo check for fail
+            return ingredientCommand;
         }
     }
     @Override
@@ -114,7 +120,6 @@ public class IngredientServiceImpl implements IngredientService {
                       .filter(ingredient -> ingredient.getId().equals(ID)).findFirst();
               if(ingredientOptional.isPresent()){
                   Ingredient ingredientToDelete = ingredientOptional.get();
-                  ingredientToDelete.setRecipe(null);
                   recipe.getIngredients().remove(ingredientToDelete);
                     recipeRepository.save(recipe);
               }
