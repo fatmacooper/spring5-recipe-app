@@ -2,6 +2,7 @@ package com.orionsson.spring5recipeapp.controllers;
 
 import com.orionsson.spring5recipeapp.commands.IngredientCommand;
 import com.orionsson.spring5recipeapp.commands.RecipeCommand;
+import com.orionsson.spring5recipeapp.commands.UnitOfMeasureCommand;
 import com.orionsson.spring5recipeapp.services.IngredientService;
 import com.orionsson.spring5recipeapp.services.RecipeService;
 import com.orionsson.spring5recipeapp.services.UnitOfMeasureService;
@@ -12,8 +13,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-
-import java.util.HashSet;
+import reactor.core.publisher.Flux;
 
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -76,7 +76,7 @@ public class IngredientControllerTest {
 
         //when
         when(ingredientService.findByRecipeIdAndIngredientId(anyString(), anyString())).thenReturn(ingredientCommand);
-        when(unitOfMeasureService.listAllUoms()).thenReturn(new HashSet<>());
+        when(unitOfMeasureService.listAllUoms()).thenReturn(Flux.just(new UnitOfMeasureCommand()));
 
         //then
         mockMvc.perform(get("/recipe/1/ingredients/2/update"))
@@ -100,7 +100,7 @@ public class IngredientControllerTest {
         recipeCommand.setId("1");
         //when
         when(recipeService.findCommandById(anyString())).thenReturn(recipeCommand);
-        when(unitOfMeasureService.listAllUoms()).thenReturn(new HashSet<>());
+        when(unitOfMeasureService.listAllUoms()).thenReturn(Flux.just(new UnitOfMeasureCommand()));
         //then
         mockMvc.perform(get("/recipe/1/ingredients/new"))
                 .andExpect(status().isOk())
