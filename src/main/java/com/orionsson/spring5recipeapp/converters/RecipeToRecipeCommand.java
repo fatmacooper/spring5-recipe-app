@@ -1,6 +1,8 @@
 package com.orionsson.spring5recipeapp.converters;
 
 import com.orionsson.spring5recipeapp.commands.RecipeCommand;
+import com.orionsson.spring5recipeapp.domain.Category;
+import com.orionsson.spring5recipeapp.domain.Ingredient;
 import com.orionsson.spring5recipeapp.domain.Recipe;
 import lombok.Synchronized;
 import org.springframework.core.convert.converter.Converter;
@@ -41,16 +43,13 @@ public class RecipeToRecipeCommand implements Converter<Recipe, RecipeCommand> {
         command.setImage(source.getImage());
         command.setNotes(notesConverter.convert(source.getNotes()));
 
-        if (source.getCategories() != null && source.getCategories().size() > 0){
-            source.getCategories()
-                    .forEach(category -> command.getCategories().add(categoryConveter.convert(category)));
+        for(Category category : source.getCategories()){
+            command.getCategories().add(categoryConveter.convert(category));
         }
 
-        if (source.getIngredients() != null && source.getIngredients().size() > 0){
-            source.getIngredients()
-                    .forEach(ingredient -> command.getIngredients().add(ingredientConverter.convert(ingredient)));
+        for(Ingredient ingredient : source.getIngredients()){
+            command.getIngredients().add(ingredientConverter.convert(ingredient));
         }
-
         return command;
     }
 }
