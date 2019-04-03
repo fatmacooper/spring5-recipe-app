@@ -19,24 +19,8 @@ public class IndexController {
     @GetMapping
     @RequestMapping({"", "/", "/index"})
     public String getIndexPage(Model model) {
-        model.addAttribute("recipes", recipeService.getRecipes());
+        model.addAttribute("recipes", recipeService.getRecipes().collectList().block());
         log.debug("I am the log at the index controller.");
         return "index";
     }
-   /* private CategoryRepository categoryRepository;
-    private UnitOfMeasureRepository unitOfMeasureRepository;
-
-    public IndexController(CategoryRepository categoryRepository, UnitOfMeasureRepository unitOfMeasureRepository) {
-        this.categoryRepository = categoryRepository;
-        this.unitOfMeasureRepository = unitOfMeasureRepository;
-    }
-
-    @RequestMapping({"","/","/index"})
-    public String getIndex(){
-        Optional<Category> categoryOptional = categoryRepository.findByDescription("American");
-        Optional<UnitOfMeasure> unitOfMeasureOptional = unitOfMeasureRepository.findByUom("Teaspoon");
-        System.out.println("The cat ID is " + categoryOptional.get().getId());
-        System.out.println("The uom ID is " + unitOfMeasureOptional.get().getId());
-        return "index";
-    }*/
 }

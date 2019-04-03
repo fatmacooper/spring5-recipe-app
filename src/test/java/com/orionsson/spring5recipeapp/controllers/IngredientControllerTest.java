@@ -44,7 +44,7 @@ public class IngredientControllerTest {
         //given
         RecipeCommand recipeCommand = new RecipeCommand();
         recipeCommand.setId("1");
-        when(recipeService.findCommandById(anyString())).thenReturn(recipeCommand);
+        when(recipeService.findCommandById(anyString())).thenReturn(Mono.just(recipeCommand));
 
         //when
         mockMvc.perform(get("/recipe/1/ingredients"))
@@ -87,7 +87,9 @@ public class IngredientControllerTest {
                 .andExpect(model().attributeExists("uomList"));
     }
     @Test
-    public void testDeleteRecipe() throws Exception{
+    public void testDeleteIngredient() throws Exception{
+        when(ingredientService.deleteById(anyString(),anyString())).thenReturn(Mono.empty());
+
         mockMvc.perform(get("/recipe/1/ingredients/1/delete"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/recipe/1/ingredients"));
@@ -100,7 +102,7 @@ public class IngredientControllerTest {
         RecipeCommand recipeCommand = new RecipeCommand();
         recipeCommand.setId("1");
         //when
-        when(recipeService.findCommandById(anyString())).thenReturn(recipeCommand);
+        when(recipeService.findCommandById(anyString())).thenReturn(Mono.just(recipeCommand));
         when(unitOfMeasureService.listAllUoms()).thenReturn(Flux.just(new UnitOfMeasureCommand()));
         //then
         mockMvc.perform(get("/recipe/1/ingredients/new"))
